@@ -39,7 +39,7 @@
             <input type="text" class="search" placeholder="Search...">
             <div class="user-info">
                 <i class="fas fa-user"></i>
-                <span>John Doe</span>
+                <span>My account</span>
             </div>
         </div>
 

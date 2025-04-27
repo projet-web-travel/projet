@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -22,17 +23,18 @@
         }
 
         .content {
-    margin-left: 250px;
-    padding: 20px;
-    width: calc(100% - 250px);
-    height: 100vh;
-    background-image: url('images/pexels-scottwebb-3255761.jpg');
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-}
+            margin-left: 250px;
+            padding: 20px;
+            width: calc(100% - 250px);
+            height: 100vh;
+            background-image: url('images/pexels-scottwebb-3255761.jpg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
     </style>
 </head>
+
 <body>
     <!-- Sidebar -->
     <div class="sidebar">
@@ -54,7 +56,7 @@
             <input type="text" class="search" placeholder="Search...">
             <div class="user-info">
                 <i class="fas fa-user"></i>
-                <span>John Doe</span>
+                <span>My account</span>
             </div>
         </div>
 
@@ -90,7 +92,8 @@
             <h2>Add a new event</h2>
             <form id="event-form" action="../controller/Ajouter.php" method="POST" enctype="multipart/form-data">
                 <label for="event-name">Name</label>
-                <input type="text" id="eventName" name="eventName" placeholder="Event Name" onkeyup="validateName()" required>
+                <input type="text" id="eventName" name="eventName" placeholder="Event Name" onkeyup="validateName()"
+                    required>
                 <small id="nameError" class="error-msg"></small>
 
                 <label for="event-date">Date</label>
@@ -98,15 +101,18 @@
                 <small id="dateError" class="error-msg"></small>
 
                 <label for="event-price">Price</label>
-                <input type="text" id="eventPrice" name="eventPrice" placeholder="Price in TND" onkeyup="validatePrice()" required>
+                <input type="text" id="eventPrice" name="eventPrice" placeholder="Price in TND"
+                    onkeyup="validatePrice()" required>
                 <small id="priceError" class="error-msg"></small>
 
                 <label for="event-duration">Duration</label>
-                <input type="text" id="eventDuration" name="eventDuration" placeholder="Duration (e.g. 5 Days)" onkeyup="validateDuration()" required>
+                <input type="text" id="eventDuration" name="eventDuration" placeholder="Duration (e.g. 5 Days)"
+                    onkeyup="validateDuration()" required>
                 <small id="durationError" class="error-msg"></small>
 
                 <label for="event-location">Location</label>
-                <input type="text" id="eventLocation" name="eventLocation" placeholder="Location" onkeyup="validateLocation()" required>
+                <input type="text" id="eventLocation" name="eventLocation" placeholder="Location"
+                    onkeyup="validateLocation()" required>
                 <small id="locationError" class="error-msg"></small>
 
                 <label for="event-status">Status</label>
@@ -162,6 +168,18 @@
 
                 <button type="submit" class="submit-event">Update Event</button>
             </form>
+        </div>
+    </div>
+
+    <div id="confirmModal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" id="closeConfirmModal">&times;</span>
+            <h2>Confirmation</h2>
+            <p>Are you sure you want to delete this event?</p>
+            <div style="margin-top: 20px; display: flex; justify-content: flex-end;">
+                <button id="confirmDeleteBtn" class="submit-event" style="margin-right: 10px;">Yes, Delete</button>
+                <button id="cancelDeleteBtn" class="submit-event" style="background-color: #aaa;">Cancel</button>
+            </div>
         </div>
     </div>
 
@@ -230,56 +248,56 @@
         }
 
         function validateEditName() {
-    const name = document.getElementById("editName").value;
-    const error = document.getElementById("editNameError");
-    if (name.length < 5) {
-        error.textContent = "The name must be at least 5 characters long.";
-    } else {
-        error.textContent = "";
-    }
-}
+            const name = document.getElementById("editName").value;
+            const error = document.getElementById("editNameError");
+            if (name.length < 5) {
+                error.textContent = "The name must be at least 5 characters long.";
+            } else {
+                error.textContent = "";
+            }
+        }
 
-function validateEditDate() {
-    const date = document.getElementById("editDate").value;
-    const error = document.getElementById("editDateError");
-    if (!date) {
-        error.textContent = "Please select a date.";
-    } else {
-        error.textContent = "";
-    }
-}
+        function validateEditDate() {
+            const date = document.getElementById("editDate").value;
+            const error = document.getElementById("editDateError");
+            if (!date) {
+                error.textContent = "Please select a date.";
+            } else {
+                error.textContent = "";
+            }
+        }
 
-function validateEditPrice() {
-    const price = document.getElementById("editPrice").value;
-    const error = document.getElementById("editPriceError");
-    if (!/^\d+(\.\d{1,2})?$/.test(price)) {
-        error.textContent = "Invalid price. Expected format: a number (e.g., 100 or 100.50).";
-    } else {
-        error.textContent = "";
-    }
-}
+        function validateEditPrice() {
+            const price = document.getElementById("editPrice").value;
+            const error = document.getElementById("editPriceError");
+            if (!/^\d+(\.\d{1,2})?$/.test(price)) {
+                error.textContent = "Invalid price. Expected format: a number (e.g., 100 or 100.50).";
+            } else {
+                error.textContent = "";
+            }
+        }
 
-function validateEditDuration() {
-    const duration = document.getElementById("editDuration").value;
-    const error = document.getElementById("editDurationError");
-    if (!/^\d+\s+(Days|days)$/.test(duration)) {
-        error.textContent = "Invalid duration. Expected format: e.g., 5 Days.";
-    } else {
-        error.textContent = "";
-    }
-}
+        function validateEditDuration() {
+            const duration = document.getElementById("editDuration").value;
+            const error = document.getElementById("editDurationError");
+            if (!/^\d+\s+(Days|days)$/.test(duration)) {
+                error.textContent = "Invalid duration. Expected format: e.g., 5 Days.";
+            } else {
+                error.textContent = "";
+            }
+        }
 
-function validateEditLocation() {
-    const location = document.getElementById("editLocation").value.trim();
-    const error = document.getElementById("editLocationError");
-    if (location.length < 7) {
-        error.textContent = "The location must be at least 7 characters long.";
-    } else if (!location.includes(",")) {
-        error.textContent = "The location must contain a comma (e.g., City, Country).";
-    } else {
-        error.textContent = "";
-    }
-}
+        function validateEditLocation() {
+            const location = document.getElementById("editLocation").value.trim();
+            const error = document.getElementById("editLocationError");
+            if (location.length < 7) {
+                error.textContent = "The location must be at least 7 characters long.";
+            } else if (!location.includes(",")) {
+                error.textContent = "The location must contain a comma (e.g., City, Country).";
+            } else {
+                error.textContent = "";
+            }
+        }
         // Load events dynamically
         function loadEvents() {
             fetch('../controller/Afficher.php')
@@ -295,35 +313,66 @@ function validateEditLocation() {
         // Delete event
         function initialiserSuppression() {
             const table = document.querySelector('table');
+            const confirmModal = document.getElementById('confirmModal');
+            const confirmDeleteBtn = document.getElementById('confirmDeleteBtn');
+            const cancelDeleteBtn = document.getElementById('cancelDeleteBtn');
+            const closeConfirmModal = document.getElementById('closeConfirmModal');
+
+            let currentRow;
+            let currentId;
+
             table.addEventListener('click', function (e) {
                 if (e.target.closest('.delete-btn')) {
                     const button = e.target.closest('.delete-btn');
-                    const row = button.closest('tr');
-                    const id = button.dataset.id;
+                    currentRow = button.closest('tr');
+                    currentId = button.dataset.id;
 
-                    if (confirm("Are you sure you want to delete this event?")) {
-                        fetch('../controller/Supprimer.php', {
-                            method: 'POST',
-                            headers: {
-                                'Content-Type': 'application/x-www-form-urlencoded',
-                            },
-                            body: 'id=' + encodeURIComponent(id)
-                        })
-                        .then(response => response.json())
-                        .then(data => {
-                            if (data.success) {
-                                row.style.transition = 'opacity 0.3s ease';
-                                row.style.opacity = '0';
-                                setTimeout(() => row.remove(), 300);
-                            } else {
-                                alert("Error : " + data.error);
-                            }
-                        })
-                        .catch(error => {
-                            console.error('AJAX Error :', error);
-                            alert("An error occurred while deleting the event.");
-                        });
-                    }
+                    // Ouvre le pop-up de confirmation
+                    confirmModal.style.display = 'block';
+                }
+            });
+
+            // Si l'utilisateur confirme
+            confirmDeleteBtn.addEventListener('click', function () {
+                fetch('../controller/Supprimer.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    body: 'id=' + encodeURIComponent(currentId)
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            currentRow.style.transition = 'opacity 0.3s ease';
+                            currentRow.style.opacity = '0';
+                            setTimeout(() => currentRow.remove(), 300);
+                        } else {
+                            alert("Error : " + data.error);
+                        }
+                    })
+                    .catch(error => {
+                        console.error('AJAX Error :', error);
+                        alert("An error occurred while deleting the event.");
+                    });
+
+                confirmModal.style.display = 'none';
+            });
+
+            // Si l'utilisateur annule
+            cancelDeleteBtn.addEventListener('click', function () {
+                confirmModal.style.display = 'none';
+            });
+
+            // Si l'utilisateur clique sur la croix
+            closeConfirmModal.addEventListener('click', function () {
+                confirmModal.style.display = 'none';
+            });
+
+            // Fermer aussi si on clique en dehors de la modal
+            window.addEventListener('click', function (e) {
+                if (e.target == confirmModal) {
+                    confirmModal.style.display = 'none';
                 }
             });
         }
@@ -359,6 +408,32 @@ function validateEditLocation() {
                 }
             };
         });
+
+        // Filtre les lignes du <tbody> en fonction du terme
+        function filterRows(tbody, searchTerm) {
+            const term = searchTerm.toLowerCase().trim();
+            Array.from(tbody.rows).forEach(row => {
+                // row.textContent récupère le texte de toutes les <td> de la ligne
+                const text = row.textContent.toLowerCase();
+                row.style.display = text.includes(term) ? '' : 'none';
+            });
+        }
+
+        // Initialise la recherche : on passe le sélecteur de l'input et du tbody
+        function setupTableSearch(inputSelector, tbodySelector) {
+            const input = document.querySelector(inputSelector);
+            const tbody = document.querySelector(tbodySelector);
+
+            input.addEventListener('input', () => {
+                filterRows(tbody, input.value);
+            });
+        }
+
+        // On lance quand tout le DOM est chargé
+        document.addEventListener('DOMContentLoaded', () => {
+            setupTableSearch('.search', '#event-table-body');
+        });
     </script>
 </body>
+
 </html>
