@@ -1,0 +1,97 @@
+
+        .subscription-container {
+            background: rgba(255, 255, 255, 0.9);
+            padding: 30px;
+            border-radius: 5px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            max-width: 500px;
+            margin: 40px auto;
+        }
+        .subscription-tabs {
+            display: flex;
+            margin-bottom: 30px;
+        }
+        .tab-btn {
+            flex: 1;
+            text-align: center;
+            padding: 15px;
+            background: #f8f8f8;
+            cursor: pointer;
+            font-weight: 600;
+            border-radius: 5px 5px 0 0;
+        }
+        .tab-btn.active {
+            background: #00d8ff;
+            color: white;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        .form-control {
+            height: 45px;
+            border-radius: 3px;
+            font-size: 16px;
+        }
+        .submit-btn {
+            background: #00d8ff;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 3px;
+            font-weight: 600;
+            cursor: pointer;
+            width: 100%;
+            transition: all 0.3s ease;
+        }
+        .submit-btn:hover {
+            background: #00b8e0;
+        }
+        .forgot-password {
+            text-align: right;
+            margin-top: 10px;
+        }
+        .forgot-password a {
+            color: #00d8ff;
+            text-decoration: none;
+        }
+        .subscription-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .subscription-header h2 {
+            color: #333;
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+        .subscription-header p {
+            color: #777;
+            font-size: 16px;
+        }
+        .subscription-bg {
+            background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('../assets/images/home/banner-bg.jpg');
+            background-size: cover;
+            background-position: center;
+            min-height: 100vh;
+            padding: 50px 0;
+        }
+        #login-form, #register-form {
+            display: none;
+        }
+        #login-form.active, #register-form.active {
+            display: block;
+        }
+        .message {
+            margin-bottom: 20px;
+            padding: 10px;
+            border-radius: 5px;
+            text-align: center;
+        }
+        .success {
+            background-color: #dff0d8;
+            color: #3c763d;
+        }
+        .error {
+            background-color: #f2dede;
+            color: #a94442;
+        }
+    

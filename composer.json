@@ -1,0 +1,7 @@
+{
+  "name": "your-name/travel",
+  "description": "A travel application",
+  "require": {
+      "phpmailer/phpmailer": "^6.0"
+  }
+}
