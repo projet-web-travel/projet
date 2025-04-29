@@ -135,7 +135,7 @@
 
   <div class="background-section">
     <div class="offers-section">
-      Offers
+      Events
       <button class="filter-button"><i class="fas fa-filter"></i> Filter</button>
     </div>
 
@@ -153,20 +153,23 @@
       <h2>Add a new reservation</h2>
       <form id="reservation-form" action="../controller/AjouterReservation.php" method="POST">
         <label for="reservationName">Name</label>
-        <input type="text" id="reservationName" name="clientName" placeholder="Client Name" onkeyup="validateEditReservationName()"
-        required>
+        <input type="text" id="reservationName" name="clientName" placeholder="Client Name"
+          onkeyup="validateReservationName()" required>
         <small id="reservationNameError" class="error-msg"></small>
 
         <label for="reservationEmail">Email</label>
-        <input type="email" id="reservationEmail" name="clientEmail" placeholder="Email Address" required>
+        <input type="email" id="reservationEmail" name="clientEmail" placeholder="Email Address"
+                    onkeyup="validateReservationEmail()" required>
         <small id="reservationEmailError" class="error-msg"></small>
 
         <label for="reservationPhone">Telephone</label>
-        <input type="text" id="reservationPhone" name="clientPhone" placeholder="Telephone Number">
+        <input type="text" id="reservationPhone" name="clientPhone" placeholder="Telephone Number"
+                    onkeyup="validateReservationPhone()">
         <small id="reservationPhoneError" class="error-msg"></small>
 
         <label for="reservationSeats">Number of Seats</label>
-        <input type="number" id="reservationSeats" name="numSeats" placeholder="Seats" required>
+        <input type="number" id="reservationSeats" name="numSeats" placeholder="Seats" onkeyup="validateReservationSeats()"
+                    required>
         <small id="reservationSeatsError" class="error-msg"></small>
 
         <label for="reservationDate">Reservation Date</label>
@@ -262,45 +265,37 @@
 
     document.addEventListener('DOMContentLoaded', initReservationModal);
 
-    function validateEditReservationName() {
-            const value = document.getElementById("editReservationName").value.trim();
-            const error = document.getElementById("editReservationNameError");
-            error.textContent = value.length < 2
-                ? "Name must be at least 2 characters."
-                : "";
-        }
+    function validateReservationName() {
+      const value = document.getElementById("reservationName").value.trim();
+      const error = document.getElementById("reservationNameError");
+      error.textContent = value.length < 2
+        ? "Name must be at least 2 characters."
+        : "";
+    }
 
-        function validateEditReservationEmail() {
-            const value = document.getElementById("editReservationEmail").value;
-            const error = document.getElementById("editReservationEmailError");
-            error.textContent = /^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(value)
-                ? ""
-                : "Invalid email address.";
-        }
+    function validateReservationEmail() {
+      const value = document.getElementById("reservationEmail").value;
+      const error = document.getElementById("reservationEmailError");
+      error.textContent = /^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(value)
+        ? ""
+        : "Invalid email address.";
+    }
 
-        function validateEditReservationPhone() {
-            const value = document.getElementById("editReservationPhone").value;
-            const error = document.getElementById("editReservationPhoneError");
-            error.textContent = value && !/^\+?[0-9\s\-]{7,}$/.test(value)
-                ? "Invalid phone number."
-                : "";
-        }
+    function validateReservationPhone() {
+      const value = document.getElementById("reservationPhone").value;
+      const error = document.getElementById("reservationPhoneError");
+      error.textContent = value && !/^\+?[0-9\s\-]{7,}$/.test(value)
+        ? "Invalid phone number."
+        : "";
+    }
 
-        function validateEditReservationSeats() {
-            const value = document.getElementById("editReservationSeats").value;
-            const error = document.getElementById("editReservationSeatsError");
-            error.textContent = value < 1
-                ? "Must reserve at least 1 seat."
-                : "";
-        }
-
-        function validateEditReservationDate() {
-            const value = document.getElementById("editReservationDate").value;
-            const error = document.getElementById("editReservationDateError");
-            error.textContent = value
-                ? ""
-                : "Please select a date.";
-        }
+    function validateReservationSeats() {
+      const value = document.getElementById("reservationSeats").value;
+      const error = document.getElementById("reservationSeatsError");
+      error.textContent = value < 1
+        ? "Must reserve at least 1 seat."
+        : "";
+    }
   </script>
 </body>
 
