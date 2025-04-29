@@ -32,6 +32,72 @@
             background-position: center;
             background-repeat: no-repeat;
         }
+
+        .action-buttons {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 15px 0;
+        }
+
+        .btn-action {
+            display: inline-flex;
+            align-items: center;
+            background-color: #00A2E8;
+            color: #fff;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 15px;
+            transition: all 0.3s ease-in-out;
+        }
+
+        .btn-action i {
+            margin-right: 8px;
+        }
+
+        .btn-action:hover {
+            background-color: #0086C1;
+            transform: scale(1.05);
+        }
+
+        .top-content {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .content h1 {
+            font-size: 38px;
+            color: #333;
+            margin-right: 80px;
+        }
+
+        .search {
+            border: 1px solid #ddd;
+            padding: 5px 15px;
+            border-radius: 20px;
+            width: 400px;
+            height: 35px;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            margin-left: auto;
+        }
+
+        .user-info i {
+            font-size: 16px;
+            color: #333;
+            margin-right: 10px;
+        }
+
+        .user-info span {
+            font-size: 16px;
+            color: #333;
+        }
     </style>
 </head>
 
@@ -60,9 +126,16 @@
             </div>
         </div>
 
-        <button class="new-event">
-            <i class="fas fa-plus"></i> New Event
-        </button>
+        <div class="action-buttons">
+            <a href="dashboard-reservations.php">
+                <button class="btn-action">
+                    <i class="fas fa-calendar-alt"></i> Reservations
+                </button>
+            </a>
+            <button class="btn-action new-event">
+                <i class="fas fa-plus"></i> New Event
+            </button>
+        </div>
 
         <!-- Event Table -->
         <table>

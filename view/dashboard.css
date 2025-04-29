@@ -59,42 +59,6 @@ body {
     border-radius: 8px;
 }
 
-.top-content {
-    display: flex;
-    align-items: center;
-}
-
-.content h1 {
-    font-size: 38px;
-    color: #333;
-    margin-right: 80px;
-}
-
-.search {
-    border: 1px solid #ddd;
-    padding: 5px 15px;
-    border-radius: 20px;
-    width: 400px;
-    height: 35px;
-}
-
-.user-info {
-    display: flex;
-    align-items: center;
-    margin-left: 250px;
-}
-
-.user-info i {
-    font-size: 16px;
-    color: #333;
-    margin-right: 10px;
-}
-
-.user-info span {
-    font-size: 16px;
-    color: #333;
-}
-
 .merged-card {
     background-color: #3580BB;
     border-radius: 8px;

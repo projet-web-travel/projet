@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,18 +9,56 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
     <link rel="stylesheet" href="dashboard.css">
     <style>
-                .content {
-    margin-left: 250px;
-    padding: 20px;
-    width: calc(100% - 250px);
-    height: 100vh;
-    background-image: url('images/pexels-scottwebb-3255761.jpg');
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-}
-        </style>
+        .content {
+            margin-left: 250px;
+            padding: 20px;
+            width: calc(100% - 250px);
+            height: 100vh;
+            background-image: url('images/pexels-scottwebb-3255761.jpg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+
+        .top-content {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .content h1 {
+            font-size: 38px;
+            color: #333;
+            margin-right: 80px;
+        }
+
+        .search {
+            border: 1px solid #ddd;
+            padding: 5px 15px;
+            border-radius: 20px;
+            width: 400px;
+            height: 35px;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            margin-left: auto;
+        }
+
+        .user-info i {
+            font-size: 16px;
+            color: #333;
+            margin-right: 10px;
+        }
+
+        .user-info span {
+            font-size: 16px;
+            color: #333;
+        }
+    </style>
 </head>
+
 <body>
     <div class="sidebar">
         <div class="logo">TRIPPED</div>
@@ -78,4 +117,5 @@
         </div>
     </div>
 </body>
+
 </html>
