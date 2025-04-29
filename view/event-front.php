@@ -159,17 +159,17 @@
 
         <label for="reservationEmail">Email</label>
         <input type="email" id="reservationEmail" name="clientEmail" placeholder="Email Address"
-                    onkeyup="validateReservationEmail()" required>
+          onkeyup="validateReservationEmail()" required>
         <small id="reservationEmailError" class="error-msg"></small>
 
         <label for="reservationPhone">Telephone</label>
         <input type="text" id="reservationPhone" name="clientPhone" placeholder="Telephone Number"
-                    onkeyup="validateReservationPhone()">
+          onkeyup="validateReservationPhone()">
         <small id="reservationPhoneError" class="error-msg"></small>
 
         <label for="reservationSeats">Number of Seats</label>
-        <input type="number" id="reservationSeats" name="numSeats" placeholder="Seats" onkeyup="validateReservationSeats()"
-                    required>
+        <input type="number" id="reservationSeats" name="numSeats" placeholder="Seats"
+          onkeyup="validateReservationSeats()" required>
         <small id="reservationSeatsError" class="error-msg"></small>
 
         <label for="reservationDate">Reservation Date</label>
@@ -264,6 +264,35 @@
     }
 
     document.addEventListener('DOMContentLoaded', initReservationModal);
+
+    // ——— FILTER ALPHABETICAL TOGGLE ———
+    document.addEventListener("DOMContentLoaded", () => {
+      const filterBtn = document.querySelector(".filter-button");
+      const container = document.getElementById("eventCards");
+      let isSorted = false;
+      let originalOrder = [];
+
+      function cacheOriginal() {
+        originalOrder = Array.from(container.children).map(card => card.outerHTML);
+      }
+
+      filterBtn.addEventListener("click", () => {
+        if (!isSorted) {
+          if (originalOrder.length === 0) cacheOriginal();
+          const cards = Array.from(container.children);
+          cards.sort((a, b) => {
+            const nameA = a.querySelector("h3").textContent.trim().toLowerCase();
+            const nameB = b.querySelector("h3").textContent.trim().toLowerCase();
+            return nameA.localeCompare(nameB);
+          });
+          container.innerHTML = "";
+          cards.forEach(card => container.appendChild(card));
+        } else {
+          container.innerHTML = originalOrder.join("");
+        }
+        isSorted = !isSorted;
+      });
+    });
 
     function validateReservationName() {
       const value = document.getElementById("reservationName").value.trim();
