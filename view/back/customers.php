@@ -166,10 +166,10 @@ if ($activeForm === '' || $activeForm === 'delete') {
         .content {
             margin-left: 250px;
             padding: 20px;
-            width: calc(100% - 290px); /* Ajusté pour éviter les débordements */
+            width: calc(100% - 290px);
             min-height: 100vh;
             background-color: #fff;
-            overflow-x: hidden; /* Empêche le défilement horizontal */
+            overflow-x: hidden;
         }
         .top-content {
             display: flex;
@@ -241,15 +241,15 @@ if ($activeForm === '' || $activeForm === 'delete') {
             border-radius: 8px;
             overflow: hidden;
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-            table-layout: fixed; /* Empêche le tableau de s'élargir */
+            table-layout: fixed;
         }
         .customer-table th,
         .customer-table td {
             padding: 12px 15px;
             text-align: left;
             overflow: hidden;
-            text-overflow: ellipsis; /* Ajoute des points de suspension aux textes longs */
-            white-space: nowrap; /* Empêche le retour à la ligne */
+            text-overflow: ellipsis;
+            white-space: nowrap;
         }
         .customer-table thead {
             background-color: #f1f5f9;
@@ -264,13 +264,13 @@ if ($activeForm === '' || $activeForm === 'delete') {
         .customer-table td {
             border-top: 1px solid #e2e8f0;
         }
-        .customer-table th:nth-child(1) { width: 5%; } /* ID */
-        .customer-table th:nth-child(2) { width: 15%; } /* Nom */
-        .customer-table th:nth-child(3) { width: 15%; } /* Prénom */
-        .customer-table th:nth-child(4) { width: 15%; } /* Date naissance */
-        .customer-table th:nth-child(5) { width: 15%; } /* Téléphone */
-        .customer-table th:nth-child(6) { width: 20%; } /* Email */
-        .customer-table th:nth-child(7) { width: 15%; } /* Actions */
+        .customer-table th:nth-child(1) { width: 5%; }
+        .customer-table th:nth-child(2) { width: 15%; }
+        .customer-table th:nth-child(3) { width: 15%; }
+        .customer-table th:nth-child(4) { width: 15%; }
+        .customer-table th:nth-child(5) { width: 15%; }
+        .customer-table th:nth-child(6) { width: 20%; }
+        .customer-table th:nth-child(7) { width: 15%; }
         
         .action-btn {
             padding: 6px 12px;
@@ -295,7 +295,6 @@ if ($activeForm === '' || $activeForm === 'delete') {
         .delete-btn:hover {
             background-color: #dc2626;
         }
-        /* Styles pour les formulaires en modal */
         .form-modal {
             position: fixed;
             top: 0;
@@ -314,7 +313,7 @@ if ($activeForm === '' || $activeForm === 'delete') {
             border-radius: 8px;
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
             width: 100%;
-            max-width: 600px; /* Largeur maximale du formulaire */
+            max-width: 600px;
             margin: 0 auto;
         }
         .form-title {
@@ -338,22 +337,21 @@ if ($activeForm === '' || $activeForm === 'delete') {
             border-radius: 4px;
             font-size: 14px;
             transition: border-color 0.3s ease;
-            box-sizing: border-box; /* Important pour éviter les débordements */
+            box-sizing: border-box;
         }
         .form-control:focus {
             border-color: #3b82f6;
             outline: none;
         }
-        /* Style pour les formulaires en 2 colonnes */
         .form-row {
             display: flex;
-            flex-wrap: wrap; /* Pour s'adapter en version mobile */
+            flex-wrap: wrap;
             gap: 15px;
             margin-bottom: 15px;
         }
         .form-col {
             flex: 1;
-            min-width: 200px; /* Largeur minimale pour éviter des colonnes trop étroites */
+            min-width: 200px;
         }
         .submit-btn {
             background-color: #3b82f6;
@@ -405,7 +403,7 @@ if ($activeForm === '' || $activeForm === 'delete') {
             border-radius: 8px;
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
             width: 100%;
-            max-width: 400px; /* Plus petit pour la confirmation */
+            max-width: 400px;
             margin: 0 auto;
         }
         .confirm-title {
@@ -442,7 +440,6 @@ if ($activeForm === '' || $activeForm === 'delete') {
             border: 1px solid #3b82f6;
         }
         .pagination a:hover:not(.active) {background-color: #ddd;}
-        /* Styles pour les modals plus petits */
         .small-modal {
             max-width: 400px;
         }
@@ -480,7 +477,7 @@ if ($activeForm === '' || $activeForm === 'delete') {
                 justify-content: center;
             }
             .customer-table {
-                font-size: 12px; /* Police plus petite pour mobile */
+                font-size: 12px;
             }
             .action-btn {
                 padding: 4px 8px;
@@ -493,16 +490,16 @@ if ($activeForm === '' || $activeForm === 'delete') {
             .form-col {
                 width: 100%;
             }
-            /* Ajuster le tableau pour mobile */
             .customer-table th:nth-child(4),
             .customer-table td:nth-child(4),
             .customer-table th:nth-child(5),
             .customer-table td:nth-child(5) {
-                display: none; /* Cacher certaines colonnes en mobile */
+                display: none;
             }
         }
     </style>
 </head>
+<script src="../assets/js/customers.js"></script>
 <body>
     <div class="sidebar">
         <div class="logo">TRIPPED</div>
@@ -537,19 +534,19 @@ if ($activeForm === '' || $activeForm === 'delete') {
             <div class="form-modal">
                 <div class="form-container">
                     <div class="form-title">Ajouter un nouveau client</div>
-                    <form method="post" action="">
+                    <form method="post" action="" id="addForm">
                         <input type="hidden" name="action" value="add">
                         <div class="form-row">
                             <div class="form-col">
                                 <div class="form-group">
                                     <label for="nom">Nom</label>
-                                    <input type="text" id="nom" name="nom" class="form-control" required>
+                                    <input type="text" id="nom" name="nom" class="form-control">
                                 </div>
                             </div>
                             <div class="form-col">
                                 <div class="form-group">
                                     <label for="prenom">Prénom</label>
-                                    <input type="text" id="prenom" name="prenom" class="form-control" required>
+                                    <input type="text" id="prenom" name="prenom" class="form-control">
                                 </div>
                             </div>
                         </div>
@@ -557,13 +554,13 @@ if ($activeForm === '' || $activeForm === 'delete') {
                             <div class="form-col">
                                 <div class="form-group">
                                     <label for="date_naissance">Date de naissance</label>
-                                    <input type="date" id="date_naissance" name="date_naissance" class="form-control" required>
+                                    <input type="date" id="date_naissance" name="date_naissance" class="form-control">
                                 </div>
                             </div>
                             <div class="form-col">
                                 <div class="form-group">
                                     <label for="telephone">Téléphone</label>
-                                    <input type="text" id="telephone" name="telephone" class="form-control" required>
+                                    <input type="text" id="telephone" name="telephone" class="form-control">
                                 </div>
                             </div>
                         </div>
@@ -571,13 +568,13 @@ if ($activeForm === '' || $activeForm === 'delete') {
                             <div class="form-col">
                                 <div class="form-group">
                                     <label for="email">Email</label>
-                                    <input type="email" id="email" name="email" class="form-control" required>
+                                    <input type="email" id="email" name="email" class="form-control">
                                 </div>
                             </div>
                             <div class="form-col">
                                 <div class="form-group">
                                     <label for="mot_de_passe">Mot de passe</label>
-                                    <input type="password" id="mot_de_passe" name="mot_de_passe" class="form-control" required>
+                                    <input type="password" id="mot_de_passe" name="mot_de_passe" class="form-control">
                                 </div>
                             </div>
                         </div>
@@ -595,20 +592,20 @@ if ($activeForm === '' || $activeForm === 'delete') {
             <div class="form-modal">
                 <div class="form-container">
                     <div class="form-title">Modifier le client</div>
-                    <form method="post" action="">
+                    <form method="post" action="" id="editForm">
                         <input type="hidden" name="action" value="edit">
                         <input type="hidden" name="id" value="<?php echo htmlspecialchars($clientToEdit->getId()); ?>">
                         <div class="form-row">
                             <div class="form-col">
                                 <div class="form-group">
                                     <label for="nom">Nom</label>
-                                    <input type="text" id="nom" name="nom" class="form-control" value="<?php echo htmlspecialchars($clientToEdit->getNom()); ?>" required>
+                                    <input type="text" id="nom" name="nom" class="form-control" value="<?php echo htmlspecialchars($clientToEdit->getNom()); ?>">
                                 </div>
                             </div>
                             <div class="form-col">
                                 <div class="form-group">
                                     <label for="prenom">Prénom</label>
-                                    <input type="text" id="prenom" name="prenom" class="form-control" value="<?php echo htmlspecialchars($clientToEdit->getPrenom()); ?>" required>
+                                    <input type="text" id="prenom" name="prenom" class="form-control" value="<?php echo htmlspecialchars($clientToEdit->getPrenom()); ?>">
                                 </div>
                             </div>
                         </div>
@@ -616,13 +613,13 @@ if ($activeForm === '' || $activeForm === 'delete') {
                             <div class="form-col">
                                 <div class="form-group">
                                     <label for="date_naissance">Date de naissance</label>
-                                    <input type="date" id="date_naissance" name="date_naissance" class="form-control" value="<?php echo htmlspecialchars($clientToEdit->getDateNaissance()); ?>" required>
+                                    <input type="date" id="date_naissance" name="date_naissance" class="form-control" value="<?php echo htmlspecialchars($clientToEdit->getDateNaissance()); ?>">
                                 </div>
                             </div>
                             <div class="form-col">
                                 <div class="form-group">
                                     <label for="telephone">Téléphone</label>
-                                    <input type="text" id="telephone" name="telephone" class="form-control" value="<?php echo htmlspecialchars($clientToEdit->getTelephone()); ?>" required>
+                                    <input type="text" id="telephone" name="telephone" class="form-control" value="<?php echo htmlspecialchars($clientToEdit->getTelephone()); ?>">
                                 </div>
                             </div>
                         </div>
@@ -630,7 +627,7 @@ if ($activeForm === '' || $activeForm === 'delete') {
                             <div class="form-col">
                                 <div class="form-group">
                                     <label for="email">Email</label>
-                                    <input type="email" id="email" name="email" class="form-control" value="<?php echo htmlspecialchars($clientToEdit->getEmail()); ?>" required>
+                                    <input type="email" id="email" name="email" class="form-control" value="<?php echo htmlspecialchars($clientToEdit->getEmail()); ?>">
                                 </div>
                             </div>
                             <div class="form-col">
@@ -689,7 +686,7 @@ if ($activeForm === '' || $activeForm === 'delete') {
                         </form>
                     </div>
                 </div>
-                <div style="overflow-x: auto;"> <!-- Conteneur défilant pour le tableau -->
+                <div style="overflow-x: auto;">
                     <table class="customer-table">
                         <thead>
                             <tr>
@@ -704,7 +701,6 @@ if ($activeForm === '' || $activeForm === 'delete') {
                         </thead>
                         <tbody>
                             <?php 
-                            // Filtrer les clients si une recherche est effectuée
                             $filteredClients = $clients;
                             if (isset($_GET['search']) && !empty($_GET['search'])) {
                                 $search = strtolower($_GET['search']);
@@ -743,7 +739,7 @@ if ($activeForm === '' || $activeForm === 'delete') {
                                         </td>
                                     </tr>
                                 <?php endforeach; ?>
-                                <?php else: ?>
+                            <?php else: ?>
                                 <tr>
                                     <td colspan="7" style="text-align: center;">Aucun client trouvé</td>
                                 </tr>
@@ -752,7 +748,6 @@ if ($activeForm === '' || $activeForm === 'delete') {
                     </table>
                 </div>
                 
-                <!-- Pagination (optional) -->
                 <div class="pagination">
                     <!-- Pagination links would go here if implemented -->
                 </div>
@@ -761,7 +756,26 @@ if ($activeForm === '' || $activeForm === 'delete') {
     </div>
 
     <script>
-        // JavaScript pour la réactivité mobile pourrait être ajouté ici
+        // Ici vous pouvez ajouter votre code JavaScript pour la validation des formulaires
+        document.addEventListener('DOMContentLoaded', function() {
+            // Exemple de validation pour le formulaire d'ajout
+            const addForm = document.getElementById('addForm');
+            if (addForm) {
+                addForm.addEventListener('submit', function(e) {
+                    // Votre logique de validation JavaScript ici
+                    // Si la validation échoue, appeler e.preventDefault()
+                });
+            }
+            
+            // Exemple de validation pour le formulaire d'édition
+            const editForm = document.getElementById('editForm');
+            if (editForm) {
+                editForm.addEventListener('submit', function(e) {
+                    // Votre logique de validation JavaScript ici
+                    // Si la validation échoue, appeler e.preventDefault()
+                });
+            }
+        });
     </script>
 </body>
 </html>

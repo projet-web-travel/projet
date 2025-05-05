@@ -189,7 +189,7 @@ class UserController {
         $stmt->execute();
         $row = $stmt->fetch(PDO::FETCH_ASSOC);
         if ($row) {
-            $this->model->setId($row['Id']);
+            $this->model->setId($row['id']);
             $this->model->setNom($row['nom']);
             $this->model->setPrenom($row['prenom']);
             $this->model->setEmail($row['email']);

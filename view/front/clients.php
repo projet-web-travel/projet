@@ -90,7 +90,6 @@ $customers = $userController->getAllCustomers();
     <div class="tab-btn active" id="login-tab">Login</div>
     <div class="tab-btn" id="register-tab">Register</div>
 </div>
-
 <div id="login-form" class="active">
     <form method="POST" action="../../controller/login.php" id="loginForm">
         <input type="hidden" name="action" value="login">
@@ -271,7 +270,7 @@ $customers = $userController->getAllCustomers();
     success: function(response) {
         if (response.success) {
             console.log("Data received:", response);
-            window.location.href = "../../view/front/sectionclient.php";
+            window.location.href = "sectionclient.php";
 
             // Process the data here
         } else {
@@ -308,7 +307,7 @@ $(document).ready(function() {
             success: function(response) {
                 if (response.success) {
                     // Redirect to the login page on successful registration
-                    window.location.href = "../../view/front/login.php";
+                    window.location.href = "clients.php/login";
                 } else {
                     // Display general error message
                     if (response.errors.general) {
