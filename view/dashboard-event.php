@@ -148,6 +148,7 @@
                     <th>Price</th>
                     <th>Duration</th>
                     <th>Location</th>
+                    <th>Seats</th>
                     <th>Status</th>
                     <th>Actions</th>
                 </tr>
@@ -194,6 +195,11 @@
                     <option value="paused">Paused</option>
                 </select>
 
+                <label for="event-capacity">Number of Seats</label>
+                <input type="number" id="eventCapacity" name="eventCapacity" placeholder="Seats"
+                    onkeyup="validateSeats()" required>
+                <small id="seatsError" class="error-msg"></small>
+
                 <label for="event-preview">Preview</label>
                 <input type="file" id="event-preview" name="event-preview" accept="image/*" required>
 
@@ -235,6 +241,11 @@
                     <option value="active">Active</option>
                     <option value="paused">Paused</option>
                 </select>
+
+                <label for="editSeats">Number of Seats</label>
+                <input type="number" id="editEventCapacity" name="eventCapacity" onkeyup="validateEditSeats()"
+                    required>
+                <small id="editSeatsError" class="error-msg"></small>
 
                 <label for="editPreview">Change Preview (optional)</label>
                 <input type="file" id="editPreview" name="eventPreview" accept="image/*">
@@ -320,6 +331,12 @@
             }
         }
 
+        function validateSeats() {
+            const value = document.getElementById("eventCapacity").value;
+            const error = document.getElementById("seatsError");
+            error.textContent = value < 1 ? "Must reserve at least 1 seat." : "";
+        }
+
         function validateEditName() {
             const name = document.getElementById("editName").value;
             const error = document.getElementById("editNameError");
@@ -358,6 +375,14 @@
             } else {
                 error.textContent = "";
             }
+        }
+
+        function validateEditSeats() {
+            const value = document.getElementById("editEventCapacity").value;
+            const error = document.getElementById("editSeatsError");
+            error.textContent = value < 1
+                ? "Must reserve at least 1 seat."
+                : "";
         }
 
         function validateEditLocation() {
@@ -468,7 +493,8 @@
                     document.getElementById("editPrice").value = cells[4].textContent;
                     document.getElementById("editDuration").value = cells[5].textContent;
                     document.getElementById("editLocation").value = cells[6].textContent;
-                    document.getElementById("editStatus").value = cells[7].textContent;
+                    document.getElementById("editEventCapacity").value = cells[7].textContent;
+                    document.getElementById("editStatus").value = cells[8].textContent;
 
                     editModal.style.display = "block";
                 }
@@ -505,6 +531,60 @@
         // On lance quand tout le DOM est chargé
         document.addEventListener('DOMContentLoaded', () => {
             setupTableSearch('.search', '#event-table-body');
+        });
+
+        function initAddEventAjax() {
+            const addForm = document.getElementById('event-form');
+            const addModal = document.getElementById('event-modal');
+
+            // utility toast
+            function showToast(message) {
+                const toast = document.createElement('div');
+                toast.textContent = message;
+                Object.assign(toast.style, {
+                    position: 'fixed',
+                    bottom: '20px',
+                    left: '50%',
+                    transform: 'translateX(-50%)',
+                    background: 'rgba(0,0,0,0.8)',
+                    color: 'white',
+                    padding: '10px 20px',
+                    borderRadius: '5px',
+                    zIndex: 10000
+                });
+                document.body.appendChild(toast);
+                setTimeout(() => toast.remove(), 3000);
+            }
+
+            addForm.addEventListener('submit', function (e) {
+                e.preventDefault();                // stop classique
+                const fd = new FormData(addForm);
+
+                fetch('../controller/Ajouter.php', {
+                    method: 'POST',
+                    body: fd
+                })
+                    .then(res => res.json())
+                    .then(json => {
+                        if (json.success) {
+                            showToast('✅ Event added successfully');
+                            addModal.classList.remove('open');  // ou style.display='none'
+                            addForm.reset();
+                            loadEvents();                       // ta fonction AJAX existante
+                        } else {
+                            showToast('❌ ' + (json.error || 'Unknown error'));
+                        }
+                    })
+                    .catch(err => {
+                        console.error(err);
+                        showToast('❌ Server error');
+                    });
+            });
+        }
+
+        // appelle la fonction au chargement
+        document.addEventListener('DOMContentLoaded', () => {
+            initAddEventAjax();
         });
     </script>
 </body>

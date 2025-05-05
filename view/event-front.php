@@ -109,6 +109,49 @@
       margin-top: 5px;
       display: block;
     }
+
+    .book-now {
+      background-color: #3487FF;
+      color: #FFFFFF !important;
+      padding: 10px 30px;
+      border-radius: 50px;
+      text-decoration: none;
+      font-weight: normal;
+      transition: 0.3s;
+      display: inline-block;
+    }
+
+    .book-now:hover {
+      background-color: #2665CC;
+    }
+
+    .toast {
+      position: fixed;
+      left: 50%;
+      top: 20%;
+      transform: translateX(-50%);
+      padding: 15px 25px;
+      border-radius: 8px;
+      color: #fff;
+      font-size: 16px;
+      font-weight: 500;
+      z-index: 10000;
+      opacity: 1;
+      transition: opacity 0.5s ease, top 0.5s ease;
+    }
+
+    .toast-success {
+      background-color: #28a745;
+    }
+
+    .toast-error {
+      background-color: #dc3545;
+    }
+
+    .toast.fade-out {
+      opacity: 0;
+      top: 10%;
+    }
   </style>
 </head>
 
@@ -151,7 +194,7 @@
     <div class="modal-content">
       <span class="close-btn">&times;</span>
       <h2>Add a new reservation</h2>
-      <form id="reservation-form" action="../controller/AjouterReservation.php" method="POST">
+      <form id="reservation-form" method="POST">
         <label for="reservationName">Name</label>
         <input type="text" id="reservationName" name="clientName" placeholder="Client Name"
           onkeyup="validateReservationName()" required>
@@ -167,11 +210,6 @@
           onkeyup="validateReservationPhone()">
         <small id="reservationPhoneError" class="error-msg"></small>
 
-        <label for="reservationSeats">Number of Seats</label>
-        <input type="number" id="reservationSeats" name="numSeats" placeholder="Seats"
-          onkeyup="validateReservationSeats()" required>
-        <small id="reservationSeatsError" class="error-msg"></small>
-
         <label for="reservationDate">Reservation Date</label>
         <input type="date" id="reservationDate" name="reservationDate" required readonly>
         <small id="reservationDateError" class="error-msg"></small>
@@ -185,147 +223,166 @@
     </div>
   </div>
 
-
   <script>
-    document.addEventListener("DOMContentLoaded", function () {
-      fetch("../controller/front-event.php")
-        .then((response) => response.json())
-        .then((data) => {
-          const container = document.getElementById("eventCards");
-          container.innerHTML = "";
+    document.addEventListener('DOMContentLoaded', () => {
+      initEventCards();
+      initReservationModal();
+      initAddReservationAjax();
+      initAlphabeticalFilter();
+    });
 
-          data.forEach(event => {
-            const card = document.createElement("div");
-            card.className = "offer-card";
-            card.style.backgroundImage = `url('../uploads/${event.Apercu}')`;
-
+    /** 1) Load & render event cards **/
+    function initEventCards() {
+      fetch('../controller/front-event.php')
+        .then(res => res.json())
+        .then(data => {
+          const container = document.getElementById('eventCards');
+          container.innerHTML = '';
+          data.forEach(evt => {
+            const card = document.createElement('div');
+            card.className = 'offer-card';
+            card.style.backgroundImage = `url('../uploads/${evt.Apercu}')`;
             card.innerHTML = `
-              <div class="view-icon" data-img="../uploads/${event.Apercu}"><i class="fas fa-image"></i></div>
-              <div class="card-info">
-                <h3>${event.Nom}</h3>
-                <p>${event.Date} • $${event.Prix} • ${event.Duree} Days</p>
-                <p><i class="fas fa-location-dot"></i> ${event.Localisation}</p>
-                <p><i class="fas fa-star"></i> 4.7</p>
-                <a href="javascript:void(0)"
-                  class="book-now"
-                    data-id="${event.Id}">
-                      Book Now
-                </a>
-              </div>
-            `;
-
+            <div class="view-icon" data-img="../uploads/${evt.Apercu}">
+              <i class="fas fa-image"></i>
+            </div>
+            <div class="card-info">
+              <h3>${evt.Nom}</h3>
+              <p>${evt.Date} • $${evt.Prix} • ${evt.Duree} Days</p>
+              <p>${evt.NombrePlaces} Seats</p>
+              <p><i class="fas fa-location-dot"></i> ${evt.Localisation}</p>
+              <a href="javascript:void(0)"
+                 class="book-now"
+                 data-id="${evt.Id}">
+                Book Now
+              </a>
+            </div>`;
             container.appendChild(card);
           });
 
-          document.querySelectorAll(".view-icon").forEach(icon => {
-            icon.addEventListener("click", function () {
-              const imgSrc = this.getAttribute("data-img");
-              document.getElementById("popupImage").src = imgSrc;
-              document.getElementById("imagePopup").style.display = "flex";
+          // Image popup
+          document.querySelectorAll('.view-icon').forEach(icon => {
+            icon.addEventListener('click', () => {
+              document.getElementById('popupImage').src = icon.dataset.img;
+              document.getElementById('imagePopup').style.display = 'flex';
             });
           });
-
-          document.getElementById("closePopup").onclick = function () {
-            document.getElementById("imagePopup").style.display = "none";
+          document.getElementById('closePopup').onclick = () => {
+            document.getElementById('imagePopup').style.display = 'none';
           };
         })
-        .catch((err) => {
-          console.error("Erreur chargement des events:", err);
-        });
-    });
+        .catch(err => console.error('Error loading events:', err));
+    }
 
+    /** 2) Reservation modal open/close **/
     function initReservationModal() {
       const modal = document.getElementById('reservation-modal');
       const closeBtn = modal.querySelector('.close-btn');
       const dateInput = document.getElementById('reservationDate');
       const eventIdInput = document.getElementById('reservationEventId');
 
-      function openModal(id) {
+      // Open on Book Now click
+      document.getElementById('eventCards').addEventListener('click', e => {
+        const btn = e.target.closest('.book-now');
+        if (!btn) return;
         dateInput.value = new Date().toISOString().split('T')[0];
-        eventIdInput.value = id;
+        eventIdInput.value = btn.dataset.id;
         modal.classList.add('open');
-      }
-
-      function closeModal() {
-        modal.classList.remove('open');
-      }
-
-      closeBtn.onclick = closeModal;
-      window.addEventListener('click', e => {
-        if (e.target === modal) closeModal();
       });
 
-      document.getElementById('eventCards')
-        .addEventListener('click', e => {
-          const btn = e.target.closest('.book-now');
-          if (!btn) return;
-          openModal(btn.dataset.id);
-        });
+      // Close handlers
+      closeBtn.onclick = () => modal.classList.remove('open');
+      window.addEventListener('click', e => {
+        if (e.target === modal) modal.classList.remove('open');
+      });
     }
 
-    document.addEventListener('DOMContentLoaded', initReservationModal);
+    /** 3) AJAX submission + styled toast **/
+    function initAddReservationAjax() {
+      const form = document.getElementById('reservation-form');
+      const modal = document.getElementById('reservation-modal');
 
-    // ——— FILTER ALPHABETICAL TOGGLE ———
-    document.addEventListener("DOMContentLoaded", () => {
-      const filterBtn = document.querySelector(".filter-button");
-      const container = document.getElementById("eventCards");
-      let isSorted = false;
-      let originalOrder = [];
+      form.addEventListener('submit', e => {
+        e.preventDefault();
+        const data = new FormData(form);
 
-      function cacheOriginal() {
-        originalOrder = Array.from(container.children).map(card => card.outerHTML);
-      }
+        fetch('../controller/AjouterReservation.php', {
+          method: 'POST',
+          body: data
+        })
+          .then(res => res.text().then(txt => ({ status: res.status, text: txt })))
+          .then(({ status, text }) => {
+            // Try JSON.parse
+            let json;
+            try {
+              json = JSON.parse(text);
+            } catch (err) {
+              console.error('Invalid JSON:', text);
+              throw new Error('Server returned invalid response.');
+            }
+            if (!json.success) throw new Error(json.error || 'Unknown error');
+            // Success!
+            modal.classList.remove('open');
+            form.reset();
+            showToast('✅ Reservation added!', false);
+          })
+          .catch(err => {
+            console.error(err);
+            showToast('❌ ' + err.message, true);
+          });
+      });
+    }
 
-      filterBtn.addEventListener("click", () => {
+    /** Toast helper **/
+    function showToast(msg, isError) {
+      const toast = document.createElement('div');
+      toast.className = 'toast ' + (isError ? 'toast-error' : 'toast-success');
+      toast.innerText = msg;
+      document.body.appendChild(toast);
+      setTimeout(() => toast.classList.add('fade-out'), 2500);
+      setTimeout(() => toast.remove(), 3000);
+    }
+
+    /** 4) Alphabetical filter toggle **/
+    function initAlphabeticalFilter() {
+      const btn = document.querySelector('.filter-button');
+      const container = document.getElementById('eventCards');
+      let isSorted = false, cache = [];
+
+      btn.addEventListener('click', () => {
         if (!isSorted) {
-          if (originalOrder.length === 0) cacheOriginal();
+          if (!cache.length) cache = Array.from(container.children).map(c => c.outerHTML);
           const cards = Array.from(container.children);
           cards.sort((a, b) => {
-            const nameA = a.querySelector("h3").textContent.trim().toLowerCase();
-            const nameB = b.querySelector("h3").textContent.trim().toLowerCase();
-            return nameA.localeCompare(nameB);
+            const nA = a.querySelector('h3').textContent.toLowerCase();
+            const nB = b.querySelector('h3').textContent.toLowerCase();
+            return nA.localeCompare(nB);
           });
-          container.innerHTML = "";
-          cards.forEach(card => container.appendChild(card));
+          container.innerHTML = '';
+          cards.forEach(c => container.appendChild(c));
         } else {
-          container.innerHTML = originalOrder.join("");
+          container.innerHTML = cache.join('');
         }
         isSorted = !isSorted;
       });
-    });
+    }
 
+    /** 5) Validation stubs (called via onkeyup/onchange) **/
     function validateReservationName() {
-      const value = document.getElementById("reservationName").value.trim();
-      const error = document.getElementById("reservationNameError");
-      error.textContent = value.length < 2
-        ? "Name must be at least 2 characters."
-        : "";
+      const val = document.getElementById('reservationName').value.trim();
+      const err = document.getElementById('reservationNameError');
+      err.textContent = val.length < 2 ? 'Name must be at least 2 characters.' : '';
     }
-
     function validateReservationEmail() {
-      const value = document.getElementById("reservationEmail").value;
-      const error = document.getElementById("reservationEmailError");
-      error.textContent = /^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(value)
-        ? ""
-        : "Invalid email address.";
+      const val = document.getElementById('reservationEmail').value;
+      const err = document.getElementById('reservationEmailError');
+      err.textContent = /^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(val) ? '' : 'Invalid email address.';
     }
-
     function validateReservationPhone() {
-      const value = document.getElementById("reservationPhone").value;
-      const error = document.getElementById("reservationPhoneError");
-      error.textContent = value && !/^\+?[0-9\s\-]{7,}$/.test(value)
-        ? "Invalid phone number."
-        : "";
-    }
-
-    function validateReservationSeats() {
-      const value = document.getElementById("reservationSeats").value;
-      const error = document.getElementById("reservationSeatsError");
-      error.textContent = value < 1
-        ? "Must reserve at least 1 seat."
-        : "";
+      const val = document.getElementById('reservationPhone').value;
+      const err = document.getElementById('reservationPhoneError');
+      err.textContent = val && !/^\+?[0-9\s\-]{7,}$/.test(val) ? 'Invalid phone number.' : '';
     }
   </script>
 </body>
-
 </html>

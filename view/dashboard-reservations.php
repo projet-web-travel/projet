@@ -148,7 +148,6 @@
                     <th>Client Name</th>
                     <th>Email</th>
                     <th>Telephone</th>
-                    <th>Seats</th>
                     <th>Reservation Date</th>
                     <th>Actions</th>
                 </tr>
@@ -179,11 +178,6 @@
                 <input type="text" id="reservationPhone" name="clientPhone" placeholder="Telephone Number"
                     onkeyup="validateReservationPhone()">
                 <small id="reservationPhoneError" class="error-msg"></small>
-
-                <label for="reservationSeats">Number of Seats</label>
-                <input type="number" id="reservationSeats" name="numSeats" placeholder="Seats"
-                    onkeyup="validateReservationSeats()" required>
-                <small id="reservationSeatsError" class="error-msg"></small>
 
                 <label for="reservationDate">Reservation Date</label>
                 <input type="date" id="reservationDate" name="reservationDate" onchange="validateReservationDate()"
@@ -222,11 +216,6 @@
                 <input type="text" id="editReservationPhone" name="clientPhone"
                     onkeyup="validateEditReservationPhone()">
                 <small id="editReservationPhoneError" class="error-msg"></small>
-
-                <label for="editReservationSeats">Number of Seats</label>
-                <input type="number" id="editReservationSeats" name="numSeats" onkeyup="validateEditReservationSeats()"
-                    required>
-                <small id="editReservationSeatsError" class="error-msg"></small>
 
                 <label for="editReservationDate">Reservation Date</label>
                 <input type="date" id="editReservationDate" name="reservationDate"
@@ -293,11 +282,7 @@
             const error = document.getElementById("reservationPhoneError");
             error.textContent = value && !/^\+?[0-9\s\-]{7,}$/.test(value) ? "Invalid phone number." : "";
         }
-        function validateReservationSeats() {
-            const value = document.getElementById("reservationSeats").value;
-            const error = document.getElementById("reservationSeatsError");
-            error.textContent = value < 1 ? "Must reserve at least 1 seat." : "";
-        }
+        
         function validateReservationDate() {
             const value = document.getElementById("reservationDate").value;
             const error = document.getElementById("reservationDateError");
@@ -350,14 +335,6 @@
             const error = document.getElementById("editReservationPhoneError");
             error.textContent = value && !/^\+?[0-9\s\-]{7,}$/.test(value)
                 ? "Invalid phone number."
-                : "";
-        }
-
-        function validateEditReservationSeats() {
-            const value = document.getElementById("editReservationSeats").value;
-            const error = document.getElementById("editReservationSeatsError");
-            error.textContent = value < 1
-                ? "Must reserve at least 1 seat."
                 : "";
         }
 
@@ -457,8 +434,7 @@
                     document.getElementById('editReservationName').value = cells[3].textContent;
                     document.getElementById('editReservationEmail').value = cells[4].textContent;
                     document.getElementById('editReservationPhone').value = cells[5].textContent;
-                    document.getElementById('editReservationSeats').value = cells[6].textContent;
-                    document.getElementById('editReservationDate').value = cells[7].textContent;
+                    document.getElementById('editReservationDate').value = cells[6].textContent;
                     document.getElementById('editReservationEventId').value = cells[1].textContent;
                     editModal.style.display = 'block';
                 }
@@ -479,6 +455,59 @@
             input.addEventListener('input', () => filterRows(tbody, input.value));
         }
         document.addEventListener('DOMContentLoaded', setupSearch);
+
+        function initAddReservationAjax() {
+            const addForm = document.getElementById('reservation-form');
+            const addModal = document.getElementById('reservation-modal');
+
+            // pop-up toast
+            function showToast(msg) {
+                const t = document.createElement('div');
+                t.textContent = msg;
+                Object.assign(t.style, {
+                    position: 'fixed',
+                    bottom: '20px',
+                    left: '50%',
+                    transform: 'translateX(-50%)',
+                    background: 'rgba(0,0,0,0.8)',
+                    color: 'white',
+                    padding: '10px 20px',
+                    borderRadius: '5px',
+                    zIndex: 10000
+                });
+                document.body.appendChild(t);
+                setTimeout(() => t.remove(), 3000);
+            }
+
+            addForm.addEventListener('submit', function (e) {
+                e.preventDefault();
+                const fd = new FormData(addForm);
+
+                fetch('../controller/AjouterReservation.php', {
+                    method: 'POST',
+                    body: fd
+                })
+                    .then(r => r.json())
+                    .then(json => {
+                        if (json.success) {
+                            showToast('✅ Reservation added successfully');
+                            addModal.classList.remove('open');   // ou style.display='none'
+                            addForm.reset();
+                            loadReservations();
+                        } else {
+                            showToast('❌ ' + (json.error || 'Unknown error'));
+                        }
+                    })
+                    .catch(() => showToast('❌ Server error'));
+            });
+        }
+
+        // on appelle tout au démarrage
+        document.addEventListener('DOMContentLoaded', () => {
+            loadReservations();
+            initDeleteReservation();
+            initAddReservationAjax();    // <— ajoute ceci
+        });
     </script>
 </body>
 

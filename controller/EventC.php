@@ -11,6 +11,8 @@ class EventC
     $duree = $eventData['eventDuration'];
     $localisation = $eventData['eventLocation'];
     $status = $eventData['event-status'];
+    $places = $eventData['eventCapacity'];
+
 
     if (isset($file['event-preview']) && $file['event-preview']['error'] === UPLOAD_ERR_OK) {
         $image_tmp = $file['event-preview']['tmp_name'];
@@ -29,8 +31,8 @@ class EventC
 
     // Requête d'insertion
     try {
-        $sql = "INSERT INTO evenements (Apercu, Nom, Date, Prix, Duree, Localisation, Status)
-                VALUES (:apercu, :nom, :date, :prix, :duree, :localisation, :status)";
+        $sql = "INSERT INTO evenements (Apercu, Nom, Date, Prix, Duree, Localisation, Status, NombrePlaces)
+                VALUES (:apercu, :nom, :date, :prix, :duree, :localisation, :status, :places)";
         $db = config::getConnexion();
         $stmt = $db->prepare($sql);
         $stmt->execute([
@@ -40,7 +42,8 @@ class EventC
             ':prix' => $prix,
             ':duree' => $duree,
             ':localisation' => $localisation,
-            ':status' => $status
+            ':status' => $status,
+            ':places' => $places
         ]);
     } catch (PDOException $e) {
         throw new Exception("Error while adding : " . $e->getMessage());
@@ -73,6 +76,7 @@ public function modifierEvenement($data, $file)
         $duration = $data['eventDuration'];
         $location = $data['eventLocation'];
         $status = $data['eventStatus'];
+        $places = $data['eventCapacity'];
 
         $previewSet = "";
         if (isset($file['eventPreview']) && $file['eventPreview']['error'] === UPLOAD_ERR_OK) {
@@ -90,7 +94,8 @@ public function modifierEvenement($data, $file)
                     Prix = :prix,
                     Duree = :duree,
                     Localisation = :localisation,
-                    Status = :status
+                    Status = :status,
+                    NombrePlaces = :places
                     $previewSet
                 WHERE Id = :id";
 
@@ -101,6 +106,7 @@ public function modifierEvenement($data, $file)
         $stmt->bindParam(':duree', $duration);
         $stmt->bindParam(':localisation', $location);
         $stmt->bindParam(':status', $status);
+        $stmt->bindParam(':places', $places, PDO::PARAM_INT);
         $stmt->bindParam(':id', $id, PDO::PARAM_INT);
 
         if (!empty($previewSet)) {

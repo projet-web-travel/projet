@@ -16,6 +16,7 @@ foreach ($evenements as $row) {
         <td>{$row['Prix']}</td>
         <td>{$row['Duree']}</td>
         <td>{$row['Localisation']}</td>
+        <td>{$row['NombrePlaces']}</td>
         <td><span class='status {$statusClass}'>" . ucfirst($row['Status']) . "</span></td>
         <td>
             <button class='icon-btn delete-btn' data-id='{$row['Id']}'><i class='fas fa-trash'></i></button>

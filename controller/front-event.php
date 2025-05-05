@@ -12,7 +12,8 @@ try {
             Date,
             Prix,
             Duree,
-            Localisation
+            Localisation,
+            NombrePlaces
         FROM evenements
         WHERE Status = 'Active'
     ";

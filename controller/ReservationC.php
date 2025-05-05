@@ -9,15 +9,14 @@ class ReservationC
         $nomClient = $reservationData['clientName'];
         $emailClient = $reservationData['clientEmail'];
         $telephoneClient = isset($reservationData['clientPhone']) ? $reservationData['clientPhone'] : null;
-        $nbPlaces = $reservationData['numSeats'];
         $dateResa = $reservationData['reservationDate'];
         $idEvenement = $reservationData['eventId'];
 
         try {
             $sql = "INSERT INTO reservations 
-                    (NomClient, EmailClient, TelephoneClient, NombrePlaces, DateReservation, IdEvenement)
+                    (NomClient, EmailClient, TelephoneClient, DateReservation, IdEvenement)
                     VALUES
-                    (:nom, :email, :telephone, :places, :dateResa, :idEvt)";
+                    (:nom, :email, :telephone, :dateResa, :idEvt)";
 
             $db = config::getConnexion();
             $stmt = $db->prepare($sql);
@@ -25,7 +24,6 @@ class ReservationC
                 ':nom' => $nomClient,
                 ':email' => $emailClient,
                 ':telephone' => $telephoneClient,
-                ':places' => $nbPlaces,
                 ':dateResa' => $dateResa,
                 ':idEvt' => $idEvenement
             ]);
@@ -42,7 +40,7 @@ class ReservationC
         try {
             $db = config::getConnexion();
             $sql = "SELECT r.Id, r.NomClient, r.EmailClient, r.TelephoneClient,
-                           r.NombrePlaces, r.DateReservation, r.IdEvenement,
+                           r.DateReservation, r.IdEvenement,
                            e.Nom AS EvenementNom
                     FROM reservations r
                     LEFT JOIN evenements e ON r.IdEvenement = e.Id";
@@ -65,7 +63,6 @@ class ReservationC
             $nom = $data['clientName'];
             $email = $data['clientEmail'];
             $tel = isset($data['clientPhone']) ? $data['clientPhone'] : null;
-            $places = $data['numSeats'];
             $dateResa = $data['reservationDate'];
             $idEvt = $data['eventId'];
 
@@ -73,7 +70,6 @@ class ReservationC
                         NomClient       = :nom,
                         EmailClient     = :email,
                         TelephoneClient = :tel,
-                        NombrePlaces    = :places,
                         DateReservation = :dateResa,
                         IdEvenement     = :idEvt
                     WHERE Id = :id";
@@ -82,7 +78,6 @@ class ReservationC
             $stmt->bindParam(':nom', $nom);
             $stmt->bindParam(':email', $email);
             $stmt->bindParam(':tel', $tel);
-            $stmt->bindParam(':places', $places, PDO::PARAM_INT);
             $stmt->bindParam(':dateResa', $dateResa);
             $stmt->bindParam(':idEvt', $idEvt, PDO::PARAM_INT);
             $stmt->bindParam(':id', $id, PDO::PARAM_INT);

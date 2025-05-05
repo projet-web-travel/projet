@@ -12,7 +12,6 @@ foreach ($reservations as $row) {
         <td>{$row['NomClient']}</td>
         <td>{$row['EmailClient']}</td>
         <td>{$row['TelephoneClient']}</td>
-        <td>{$row['NombrePlaces']}</td>
         <td>{$row['DateReservation']}</td>
         <td>
             <button class='icon-btn delete-btn' data-id='{$row['Id']}'><i class='fas fa-trash'></i></button>
